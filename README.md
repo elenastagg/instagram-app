@@ -26,10 +26,60 @@ npm start
 
 ### Visit `localhost:3000` in your browser.
 
-You should see a **Hello World** message.
+### MVP
+# SIGN UP
+```
+- Email
+- new password
+- handle
+- add user to database
+```
 
-### Change the rendered output
+# Feed
+```
+- view photo
+- like photo
+- comment on photo
+```
 
-You can change what is mounted to the DOM in `src/index.js`.
+# PROFILE
+```
+- handle - pulled in
+- profile picture
+- Name
+- Save details
+- Uploaded photos grid
+- Upload photo button
+```
 
-It might be a good idea to make an `App` component inside `App.jsx` (will likely handle your layout and routing), and to mount this to the DOM.
+# UPLOAD PHOTO
+```
+- Upload photo
+- write description
+- Publish photo
+- edit
+- delete images
+- Photo & description are added to profile
+```
+### NICE TO HAVE
+# SIGN UP
+```
+- confirm password
+```
+# Feed
+```
+- Find user by handle
+- view profile
+```
+
+# PROFILE
+```
+- description
+- Save details
+```
+
+# UPLOAD PHOTO
+```
+- add tags to photos
+- search by tag
+```
