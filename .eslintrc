@@ -2,7 +2,8 @@
   "extends": ["airbnb", "plugin:react/recommended", "plugin:prettier/recommended"],
   "plugins": ["react", "import", "prettier", "jsx-a11y"],
   "env": {
-    "jest": true
+    "jest": true,
+    "browser": true
   },
   "settings": {
     "react": {

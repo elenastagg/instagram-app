@@ -1,16 +1,43 @@
-import React, { alert } from 'react';
+import React from 'react';
+import validator from 'email-validator';
+import axios from 'axios';
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
-      username: '',
     };
 
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  isSubmitDisabled() {
+    const { email, password, firstName, lastName } = this.state;
+    return email === '' || password === '' || firstName === '' || lastName === '' || !validator.validate(email);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const { email, password, confirmPassword, firstName, lastName } = this.state;
+    axios.post('https://mcr-codes-image-sharing-api.herokuapp.com/users', {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    }
+    ).then(response => {
+      console.log('registration res', response)
+      this.props.history.push('/profile');
+    }).catch(error => {
+      console.log('registration error', error);
+    })
   }
 
   handleFieldChange(event) {
@@ -19,68 +46,92 @@ class Register extends React.Component {
     });
   }
 
-  handleSubmit() {
-    const { password, confirmPassword } = this.state;
-    if (password !== confirmPassword) {
-      alert("Passwords don't match");
-    } else {
-      console.log(this.state);
-    }
-  }
-
   render() {
-    const { email, password, confirmPassword, username } = this.state;
+    const { email, password, confirmPassword, firstName, lastName } = this.state;
 
     return (
-      <div className="log-in-form">
-        <div label="Email" name="email">
-          <input
-            type="text"
-            className="input-field"
-            name="email"
-            value={email}
-            placeholder="example@example.com"
-            onChange={this.handleFieldChange}
-          />
+      <form className="log-in-form" onSubmit={this.handleSubmit}>
+        <h1>Register</h1>
+        <div>
+          <label>
+            First Name
+            <input
+              type="text"
+              className="input-field"
+              name="firstName"
+              value={firstName}
+              onChange={this.handleFieldChange}
+              required
+            />
+          </label>
         </div>
 
-        <div label="Password" name="password">
-          <input
-            type="text"
-            className="input-field"
-            name="password"
-            value={password}
-            placeholder="Type in a password"
-            onChange={this.handleFieldChange}
-          />
+        <div>
+          <label>
+            Last Name
+            <input
+              type="text"
+              className="input-field"
+              name="lastName"
+              value={lastName}
+              onChange={this.handleFieldChange}
+              required
+            />
+          </label>
         </div>
 
-        <div label="Password" name="confirmPassword">
-          <input
-            type="text"
-            className="input-field"
-            name="confirmPassword"
-            value={confirmPassword}
-            placeholder="Confirm password"
-            onChange={this.handleFieldChange}
-          />
+        <div>
+          <label>
+            Email
+            <input
+              type="email"
+              className="input-field"
+              name="email"
+              value={email}
+              placeholder="example@example.com"
+              onChange={this.handleFieldChange}
+              required
+            />
+          </label>
         </div>
 
-        <div label="Username" name="username">
-          <input
-            type="text"
-            className="input-field"
-            name="username"
-            value={username}
-            placeholder="Give your profile a username"
-            onChange={this.handleFieldChange}
-          />
+        <div>
+          <label>
+            Password
+            <input
+              type="password"
+              className="input-field"
+              name="password"
+              value={password}
+              placeholder="Type in a password"
+              onChange={this.handleFieldChange}
+              required
+            />
+          </label>
         </div>
 
-        <button onClick={() => this.handleSubmit()} type="submit">
+        <div>
+          <label>
+            Confirm Password
+            <input
+              type="password"
+              className="input-field"
+              name="confirmPassword"
+              value={confirmPassword}
+              placeholder="Confirm password"
+              onChange={this.handleFieldChange}
+              required
+            />
+          </label>
+        </div>
+
+        <button
+          disabled={this.isSubmitDisabled()}
+          type="submit"
+        >
           Register
         </button>
-      </div>
+      </form>
     );
   }
 }
