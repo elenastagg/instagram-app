@@ -7,30 +7,33 @@ class Upload extends React.Component {
     this.state = {
       selectedImage: '',
       caption: '',
+      errorMessage: '',
     };
-
-    this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFieldChange = this.handleFieldChange.bind(this);
   }
 
-  handleSelectImage(event) {
+  handleSelectImage = event => {
     event.preventDefault();
     this.setState({
       selectedImage: event.target.value,
     });
-  }
+  };
 
-  handleFieldChange(event) {
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
-  handleSubmit(event) {
+  isSubmitDisabled = () => {
+    const { caption, selectedImage } = this.state;
+    return caption === '' || selectedImage === '';
+  };
+
+  handleSubmit = event => {
+    const { history } = this.props;
     const { caption, selectedImage } = this.state;
     event.preventDefault();
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('caption', caption);
     formData.append('image', selectedImage);
     axios
@@ -39,14 +42,16 @@ class Upload extends React.Component {
       })
       .then(response => {
         console.log('Upload response:', response);
+        history.push('/profile');
       })
       .catch(error => {
         console.log('upload error:', error);
+        this.setState({ errorMessage: error.response.data.message });
       });
-  }
+  };
 
   render() {
-    const { caption, selectedImage } = this.state;
+    const { caption, selectedImage, errorMessage } = this.state;
     return (
       <form className="upload-photo" id="uploadPhoto" onSubmit={this.handleSubmit}>
         <h1>Upload Photo</h1>
@@ -56,7 +61,7 @@ class Upload extends React.Component {
           form="uploadPhoto"
           placeholder="Enter caption here..."
           value={caption}
-          onChange={this.handleFieldChange}
+          onChange={this.handleChange}
         />
         <div>
           <input
@@ -67,10 +72,17 @@ class Upload extends React.Component {
           />
         </div>
         <div>
-          <button id="selectedImage" name="selectedImage">
+          <button
+            disabled={this.isSubmitDisabled()}
+            type="submit"
+            type="submit"
+            id="selectedImage"
+            name="selectedImage"
+          >
             Upload
           </button>
         </div>
+        <div>{errorMessage && <span>{errorMessage}</span>}</div>
       </form>
     );
   }

@@ -1,6 +1,7 @@
 import React from 'react';
-import Image from './image';
 import { Link } from 'react-router-dom';
+
+import Image from './image';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -15,8 +16,8 @@ class Profile extends React.Component {
     return (
       <div>
         <h1>Images</h1>
-        {this.state.images.map(image => (
-          <Image id={image._id} caption={Image.caption} />
+        {images.map(image => (
+          <Image key="key" id={image.id} caption={Image.caption} />
         ))}
         <div>
           <Link to="/upload">Upload Photo</Link>

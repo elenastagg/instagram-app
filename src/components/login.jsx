@@ -39,7 +39,7 @@ class LogIn extends React.Component {
         history.push('/profile');
       })
       .catch(error => {
-        console.error(error);
+        console.error(error.response);
         this.setState({ errorMessage: error.response.data.message });
       });
   }
@@ -55,6 +55,7 @@ class LogIn extends React.Component {
       <form className="log-in-form" onSubmit={this.handleSubmit}>
         <h1>Log In</h1>
         <div>
+          <div>Please log in to access your profile</div>
           <label htmlFor="email">
             Email
             <input

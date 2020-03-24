@@ -1,42 +1,21 @@
 import React from 'react';
+import TokenManager from '../utils/token-manager';
 
 class Image extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       _id: '',
-      user: '',
+      user: TokenManager.getTokenPayLoad(),
       src: '',
-      thumb: '',
       caption: '',
       tags: [],
       comments: [],
-      timestamp: 0,
-      likes: 0,
-      isLiked: false,
     };
   }
-
   render() {
-    const {
-      _id,
-      user,
-      src,
-      thumb,
-      caption,
-      tags,
-      comments,
-      timestamp,
-      likes,
-      isLiked
-    } = this.state
-
-    return (
-      <div>
-        <img />
-      </div>
-    );
+    return <h1>Hello</h1>;
   }
-};
+}
 
 export default Image;

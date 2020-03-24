@@ -16,7 +16,7 @@ const tokenExists = t => {
 };
 
 const tokenHasNotExpired = t => {
-  const now = new Date().valueOf();
+  const now = Date.now() / 1000;
 
   return !t.exp || t.exp > now;
 };

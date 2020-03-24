@@ -4,28 +4,39 @@ import LogIn from './login';
 import Register from './register';
 import Profile from './profile';
 import Upload from './upload';
+import NavBar from './navbar';
 import TokenManager from '../utils/token-manager';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       user: TokenManager.isTokenValid() ? TokenManager.getTokenPayLoad() : null,
     };
-
-    this.handleLogin = this.handleLogin.bind(this);
   }
 
-  handleLogin() {
-    const user = TokenManager.getTokenPayLoad();
+  handleLogin = () => {
+    this.setState({ user: TokenManager.getTokenPayLoad() });
+  };
 
-    this.setState({ user });
-  }
+  handleLogout = () => {
+    TokenManager.removeToken();
+    this.setState({
+      user: null,
+    });
+  };
+
+  isLoggedIn = () => {
+    const { user } = this.state;
+
+    return Boolean(user) && TokenManager.isTokenValid();
+  };
 
   render() {
+    const { user } = this.state;
     return (
       <>
+        <NavBar isLoggedIn={this.isLoggedIn()} user={user} onLogout={this.handleLogout} />
         <Switch>
           <Route
             exact
