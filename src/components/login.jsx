@@ -13,18 +13,15 @@ class LogIn extends React.Component {
       password: '',
       errorMessage: '',
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     const { email, password } = this.state;
     const { history, onLogin } = this.props;
@@ -42,12 +39,12 @@ class LogIn extends React.Component {
         console.error(error.response);
         this.setState({ errorMessage: error.response.data.message });
       });
-  }
+  };
 
-  isSubmitDisabled() {
+  isSubmitDisabled = () => {
     const { email, password } = this.state;
     return email === '' || password === '' || !validator.validate(email);
-  }
+  };
 
   render() {
     const { email, password, errorMessage } = this.state;

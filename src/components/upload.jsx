@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 class Upload extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedImage: '',
+      _id: '',
       caption: '',
       errorMessage: '',
     };
@@ -14,7 +15,7 @@ class Upload extends React.Component {
   handleSelectImage = event => {
     event.preventDefault();
     this.setState({
-      selectedImage: event.target.value,
+      _id: event.target.value,
     });
   };
 
@@ -25,17 +26,17 @@ class Upload extends React.Component {
   };
 
   isSubmitDisabled = () => {
-    const { caption, selectedImage } = this.state;
-    return caption === '' || selectedImage === '';
+    const { caption, _id } = this.state;
+    return caption === '' || _id === '';
   };
 
   handleSubmit = event => {
     const { history } = this.props;
-    const { caption, selectedImage } = this.state;
+    const { caption, _id } = this.state;
     event.preventDefault();
     const formData = new FormData();
     formData.append('caption', caption);
-    formData.append('image', selectedImage);
+    formData.append('image', _id);
     axios
       .post('https://mcr-codes-image-sharing-api.herokuapp.com/images', {
         formData,
@@ -51,7 +52,7 @@ class Upload extends React.Component {
   };
 
   render() {
-    const { caption, selectedImage, errorMessage } = this.state;
+    const { caption, _id, errorMessage } = this.state;
     return (
       <form className="upload-photo" id="uploadPhoto" onSubmit={this.handleSubmit}>
         <h1>Upload Photo</h1>
@@ -64,21 +65,10 @@ class Upload extends React.Component {
           onChange={this.handleChange}
         />
         <div>
-          <input
-            type="file"
-            name="upload"
-            onChange={this.handleSelectImage}
-            value={selectedImage}
-          />
+          <input type="file" name="upload" onChange={this.handleSelectImage} value={_id} />
         </div>
         <div>
-          <button
-            disabled={this.isSubmitDisabled()}
-            type="submit"
-            type="submit"
-            id="selectedImage"
-            name="selectedImage"
-          >
+          <button disabled={this.isSubmitDisabled()} type="submit" id="_id" name="_id">
             Upload
           </button>
         </div>
@@ -87,5 +77,11 @@ class Upload extends React.Component {
     );
   }
 }
+
+Upload.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Upload;

@@ -1,24 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import Image from './image';
+import axios from 'axios';
+import ImageCard from './image-card';
+import '../styles/profile.scss';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      errorMessage: '',
       images: [],
     };
   }
 
+  componentDidMount() {
+    axios
+      .get('https://mcr-codes-image-sharing-api.herokuapp.com/images')
+      .then(response => {
+        this.setState({
+          images: response.data,
+        });
+      })
+      .catch(error => {
+        this.setState({ errorMessage: error.response.data.message });
+      });
+  }
+
   render() {
-    const { images } = this.state;
+    const { images, errorMessage } = this.state;
     return (
-      <div>
+      <div className="image-cell">
         <h1>Images</h1>
-        {images.map(image => (
-          <Image key="key" id={image.id} caption={Image.caption} />
-        ))}
+        <div className="wrapper">
+          {errorMessage && <div>{errorMessage}</div>}
+          {images.map(image => (
+            <div key={image._id}>
+              <ImageCard {...image} />
+            </div>
+          ))}
+        </div>
         <div>
           <Link to="/upload">Upload Photo</Link>
         </div>

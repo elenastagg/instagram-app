@@ -6,6 +6,7 @@
     "axios": "^0.18.1",
     "email-validator": "^2.0.4",
     "jwt-decode": "^2.2.0",
+    "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "raf": "^3.4.1",
     "react": "^16.12.0",

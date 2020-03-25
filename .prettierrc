@@ -4,7 +4,6 @@
   "trailingComma": "all",
   "auto_format_on_save_excludes": [
     "*/node_modules/*",
-    "*/file.js",
     "*.json"
   ]
 }
