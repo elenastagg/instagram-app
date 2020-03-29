@@ -1,5 +1,6 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LogIn from './login';
 import Register from './register';
 import Profile from './profile';
@@ -13,6 +14,13 @@ class App extends React.Component {
     this.state = {
       user: TokenManager.isTokenValid() ? TokenManager.getTokenPayLoad() : null,
     };
+  }
+
+  componentDidMount() {
+    const { history, location } = this.props;
+    if (location.pathname !== '/register' && !this.isLoggedIn()) {
+      history.push('/');
+    }
   }
 
   handleLogin = () => {
@@ -35,7 +43,7 @@ class App extends React.Component {
   render() {
     const { user } = this.state;
     return (
-      <>
+      <Fragment>
         <NavBar isLoggedIn={this.isLoggedIn()} user={user} onLogout={this.handleLogout} />
         <Switch>
           <Route
@@ -45,11 +53,26 @@ class App extends React.Component {
           />
           <Route exact path="/register" component={Register} />
           <Route exact path="/profile" component={Profile} />
-          <Route exact path="/upload" component={Upload} />
+          <Route
+            exact
+            isLoggedIn={this.isLoggedIn()}
+            user={user}
+            path="/upload"
+            component={Upload}
+          />
         </Switch>
-      </>
+      </Fragment>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+export default withRouter(App);

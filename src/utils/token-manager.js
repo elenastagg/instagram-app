@@ -8,6 +8,7 @@ const getToken = () => window.localStorage.getItem('apiToken');
 
 const getTokenPayLoad = () => {
   const token = getToken();
+
   return token && decode(token);
 };
 

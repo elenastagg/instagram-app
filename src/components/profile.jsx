@@ -20,6 +20,7 @@ class Profile extends React.Component {
         this.setState({
           images: response.data,
         });
+        console.log(response.data);
       })
       .catch(error => {
         this.setState({ errorMessage: error.response.data.message });
@@ -29,9 +30,9 @@ class Profile extends React.Component {
   render() {
     const { images, errorMessage } = this.state;
     return (
-      <div className="image-cell">
+      <div className="profile">
         <h1>Images</h1>
-        <div className="wrapper">
+        <div className="images-container">
           {errorMessage && <div>{errorMessage}</div>}
           {images.map(image => (
             <div key={image._id}>

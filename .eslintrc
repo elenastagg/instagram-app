@@ -12,6 +12,7 @@
   "parser": "babel-eslint",
   "rules": {
     "react/jsx-props-no-spreading": "off",
-    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+    "react/jsx-fragments": ["error", "element"]
   }
 }

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import '../styles/profile.scss';
 
 const ImageCard = ({ _id, caption, src }) => (
-  <div className="image-card">
-    <div className="image">
-      <img alt=" " id={_id} src={src} />
+  <div className="post-container">
+    <div>
+      <img className="image" alt=" " id={_id} src={src} />
     </div>
     <div>{caption}</div>
   </div>

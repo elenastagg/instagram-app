@@ -1,13 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import TokenManager from '../utils/token-manager';
 
 class Upload extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      _id: '',
+      // _eid: '',
       caption: '',
+      // tags: [],
+      src: '',
+      // timestamp: null,
       errorMessage: '',
     };
   }
@@ -15,8 +19,9 @@ class Upload extends React.Component {
   handleSelectImage = event => {
     event.preventDefault();
     this.setState({
-      _id: event.target.value,
+      src: event.target.files[0],
     });
+    console.log(event.target.files[0]);
   };
 
   handleChange = event => {
@@ -26,33 +31,36 @@ class Upload extends React.Component {
   };
 
   isSubmitDisabled = () => {
-    const { caption, _id } = this.state;
-    return caption === '' || _id === '';
+    const { caption, src } = this.state;
+    return caption === '' || src === '';
   };
 
   handleSubmit = event => {
-    const { history } = this.props;
-    const { caption, _id } = this.state;
     event.preventDefault();
+    const { history } = this.props;
+    const { caption, src } = this.state;
+    const token = TokenManager.getToken();
     const formData = new FormData();
     formData.append('caption', caption);
-    formData.append('image', _id);
-    axios
-      .post('https://mcr-codes-image-sharing-api.herokuapp.com/images', {
-        formData,
-      })
-      .then(response => {
-        console.log('Upload response:', response);
-        history.push('/profile');
-      })
-      .catch(error => {
-        console.log('upload error:', error);
-        this.setState({ errorMessage: error.response.data.message });
-      });
+    formData.append('image', src);
+    if (token !== null) {
+      axios
+        .post('https://mcr-codes-image-sharing-api.herokuapp.com/images', formData, {
+          headers: { Authorization: token },
+        })
+        .then(response => {
+          console.log('Upload response:', response);
+          history.push('/profile');
+        })
+        .catch(error => {
+          console.log('upload error:', error);
+          this.setState({ errorMessage: error.response.data.message });
+        });
+    }
   };
 
   render() {
-    const { caption, _id, errorMessage } = this.state;
+    const { caption, src, errorMessage } = this.state;
     return (
       <form className="upload-photo" id="uploadPhoto" onSubmit={this.handleSubmit}>
         <h1>Upload Photo</h1>
@@ -65,10 +73,10 @@ class Upload extends React.Component {
           onChange={this.handleChange}
         />
         <div>
-          <input type="file" name="upload" onChange={this.handleSelectImage} value={_id} />
+          <input type="file" name="upload" onChange={this.handleSelectImage} file={src} />
         </div>
         <div>
-          <button disabled={this.isSubmitDisabled()} type="submit" id="_id" name="_id">
+          <button disabled={this.isSubmitDisabled()} type="submit" src={src} value={src}>
             Upload
           </button>
         </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { NavLink } from 'react-router-dom';
 
 const NavBar = ({ isLoggedIn, onLogout }) => (
   <nav style={{ backgroundColor: 'lightgrey', padding: 10 }}>
@@ -15,10 +14,10 @@ const NavBar = ({ isLoggedIn, onLogout }) => (
 );
 
 NavBar.propTypes = {
-  // user: PropTypes.shape({
-  //   firstName: PropTypes.string,
-  //   lastName: PropTypes.string,
-  // }),
+  user: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }),
   isLoggedIn: PropTypes.bool.isRequired,
   onLogout: PropTypes.func.isRequired,
 };
