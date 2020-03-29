@@ -35,9 +35,7 @@ class Profile extends React.Component {
         <div className="images-container">
           {errorMessage && <div>{errorMessage}</div>}
           {images.map(image => (
-            <div key={image._id}>
-              <ImageCard {...image} />
-            </div>
+            <ImageCard key={image._id} {...image} />
           ))}
         </div>
         <div>

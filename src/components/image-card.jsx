@@ -4,10 +4,10 @@ import '../styles/profile.scss';
 
 const ImageCard = ({ _id, caption, src }) => (
   <div className="post-container">
-    <div>
+    <div className="image-container">
       <img className="image" alt=" " id={_id} src={src} />
     </div>
-    <div>{caption}</div>
+    <div className="image-caption">{caption}</div>
   </div>
 );
 

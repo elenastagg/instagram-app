@@ -4,9 +4,6 @@ $olive-green: #556b2f;
 $blue: #191970;
 
 .profile {
-  width: 100%;
-  height: 100%;
-  border-width: medium;
   border-style: solid;
   border-color: $orange;
   border-width: 3px;
@@ -16,24 +13,27 @@ $blue: #191970;
   border-color: $yellow;
   border-style: solid;
   border-width: 3px;
-  // width: 90%;
-  // height: 90%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .post-container {
   border-color: $olive-green;
   border-width: 3px;
   border-style: solid;
-  padding: 10px;
-  width: 33%;
+  padding: 8px;
+}
+
+.image-container {
+  border-color: $blue;
+  border-style: solid;
+}
+
+.image-caption {
+  border-color: black;
+  border-style: solid;
 }
 
 .image {
-  border-color: $blue;
-  border-style: solid;
   width: 100%;
-  height: 100%;
-  border-width: 3px;
 }

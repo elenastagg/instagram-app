@@ -7,7 +7,7 @@ class Upload extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // _eid: '',
+      // _id: '',
       caption: '',
       // tags: [],
       src: '',
@@ -62,7 +62,7 @@ class Upload extends React.Component {
   render() {
     const { caption, src, errorMessage } = this.state;
     return (
-      <form className="upload-photo" id="uploadPhoto" onSubmit={this.handleSubmit}>
+      <form id="uploadPhoto" onSubmit={this.handleSubmit}>
         <h1>Upload Photo</h1>
         <textarea
           maxLength="2200"
