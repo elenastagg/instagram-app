@@ -21,7 +21,6 @@ class Upload extends React.Component {
     this.setState({
       src: event.target.files[0],
     });
-    console.log(event.target.files[0]);
   };
 
   handleChange = event => {
@@ -48,8 +47,7 @@ class Upload extends React.Component {
         .post('https://mcr-codes-image-sharing-api.herokuapp.com/images', formData, {
           headers: { Authorization: token },
         })
-        .then(response => {
-          console.log('Upload response:', response);
+        .then(() => {
           history.push('/profile');
         })
         .catch(error => {

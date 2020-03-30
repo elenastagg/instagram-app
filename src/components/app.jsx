@@ -17,10 +17,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { history, location } = this.props;
-    if (location.pathname !== '/register' && !this.isLoggedIn()) {
-      history.push('/');
-    }
+    this.checkAuth();
+  }
+
+  componentDidUpdate() {
+    this.checkAuth();
   }
 
   handleLogin = () => {
@@ -32,12 +33,21 @@ class App extends React.Component {
     this.setState({
       user: null,
     });
+    const { history } = this.props;
+    history.push('/');
   };
 
   isLoggedIn = () => {
     const { user } = this.state;
 
     return Boolean(user) && TokenManager.isTokenValid();
+  };
+
+  checkAuth = () => {
+    const { history, location } = this.props;
+    if (location.pathname !== '/register' && location.pathname !== '/' && !this.isLoggedIn()) {
+      history.push('/');
+    }
   };
 
   render() {
