@@ -1,32 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const NavBar = ({ isLoggedIn, onLogout }) => (
   <nav style={{ backgroundColor: 'lightgrey', padding: 10 }}>
     {isLoggedIn && (
       <div>
-        <button type="submit" onClick={onLogout}>
+        <button type="button" onClick={onLogout}>
           Log out
         </button>
       </div>
     )}
+    <div>
+      <button type="button">
+        <Link to="/feed">Feed</Link>
+      </button>
+    </div>
+    <div>
+      <button type="button">
+        <Link to="/profile/me">My Profile</Link>
+      </button>
+    </div>
   </nav>
 );
 
 NavBar.propTypes = {
-  user: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-  }),
   isLoggedIn: PropTypes.bool.isRequired,
   onLogout: PropTypes.func.isRequired,
-};
-
-NavBar.defaultProps = {
-  user: {
-    firstName: '',
-    lastName: '',
-  },
 };
 
 export default NavBar;

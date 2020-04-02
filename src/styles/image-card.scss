@@ -1,0 +1,27 @@
+$olive-green: #556b2f;
+$blue: #191970;
+
+.post-container {
+  border-color: $olive-green;
+  border-width: 3px;
+  border-style: solid;
+  padding: 8px;
+  font-weight: 300;
+}
+
+.image-container {
+  border-color: $blue;
+  border-style: solid;
+}
+.userName {
+  font-weight: 500;
+}
+
+.image-caption {
+  border-color: black;
+  border-style: solid;
+}
+
+.image {
+  width: 100%;
+}

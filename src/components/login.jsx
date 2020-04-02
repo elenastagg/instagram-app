@@ -24,7 +24,7 @@ class LogIn extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     const { email, password } = this.state;
-    const { history, onLogin } = this.props;
+    const { onLogin, history } = this.props;
     axios
       .post('https://mcr-codes-image-sharing-api.herokuapp.com/auth/login', {
         email,
@@ -33,7 +33,12 @@ class LogIn extends React.Component {
       .then(response => {
         TokenManager.setToken(response.data.token);
         onLogin();
-        history.push('/profile');
+        history.push('/profile/me');
+        // const token = TokenManager.getToken();
+        // axios
+        //   .get(`https://mcr-codes-image-sharing-api.herokuapp.com/me`, {
+        //     headers: { Authorization: token },
+        //   })
       })
       .catch(error => {
         console.error(error.response);

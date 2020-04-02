@@ -11,37 +11,51 @@ class Register extends React.Component {
       firstName: '',
       lastName: '',
       email: '',
+      bio: '',
+      avatar: '',
       password: '',
       confirmPassword: '',
     };
-
-    this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  isSubmitDisabled() {
-    const { email, password, firstName, lastName } = this.state;
+  handleSelectImage = event => {
+    event.preventDefault();
+    this.setState({
+      avatar: event.target.files[0],
+    });
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  isSubmitDisabled = () => {
+    const { email, password, firstName, lastName, confirmPassword } = this.state;
     return (
       email === '' ||
       password === '' ||
+      confirmPassword !== password ||
       firstName === '' ||
       lastName === '' ||
       !validator.validate(email)
     );
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     const { history } = this.props;
-    const { email, password, confirmPassword, firstName, lastName } = this.state;
+    const { email, password, firstName, lastName, bio, avatar } = this.state;
+    const formData = new FormData();
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    formData.append('bio', bio);
+    formData.append('avatar', avatar);
+    formData.append('password', password);
     axios
-      .post('https://mcr-codes-image-sharing-api.herokuapp.com/users', {
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-      })
+      .post('https://mcr-codes-image-sharing-api.herokuapp.com/users', formData)
       .then(response => {
         console.log('registration res', response);
         history.push('/');
@@ -49,16 +63,10 @@ class Register extends React.Component {
       .catch(error => {
         console.log('registration error', error);
       });
-  }
-
-  handleFieldChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
+  };
 
   render() {
-    const { email, password, confirmPassword, firstName, lastName } = this.state;
+    const { email, password, confirmPassword, firstName, lastName, bio, avatar } = this.state;
 
     return (
       <form className="log-in-form" onSubmit={this.handleSubmit}>
@@ -71,7 +79,7 @@ class Register extends React.Component {
               className="input-field"
               name="firstName"
               value={firstName}
-              onChange={this.handleFieldChange}
+              onChange={this.handleChange}
               required
             />
           </label>
@@ -85,7 +93,7 @@ class Register extends React.Component {
               className="input-field"
               name="lastName"
               value={lastName}
-              onChange={this.handleFieldChange}
+              onChange={this.handleChange}
               required
             />
           </label>
@@ -100,9 +108,29 @@ class Register extends React.Component {
               name="email"
               value={email}
               placeholder="example@example.com"
-              onChange={this.handleFieldChange}
+              onChange={this.handleChange}
               required
             />
+          </label>
+        </div>
+
+        <div>
+          <label htmlFor="email">
+            Bio
+            <textarea
+              maxLength="2200"
+              name="bio"
+              placeholder="Enter bio here..."
+              value={bio}
+              onChange={this.handleChange}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label htmlFor='email'>
+            Upload your Avatar
+            <input type="file" name="avatar" onChange={this.handleSelectImage} file={avatar} />
           </label>
         </div>
 
@@ -115,7 +143,7 @@ class Register extends React.Component {
               name="password"
               value={password}
               placeholder="Type in a password"
-              onChange={this.handleFieldChange}
+              onChange={this.handleChange}
               required
             />
           </label>
@@ -130,7 +158,7 @@ class Register extends React.Component {
               name="confirmPassword"
               value={confirmPassword}
               placeholder="Confirm password"
-              onChange={this.handleFieldChange}
+              onChange={this.handleChange}
               required
             />
           </label>

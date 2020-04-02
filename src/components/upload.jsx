@@ -7,11 +7,8 @@ class Upload extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // _id: '',
       caption: '',
-      // tags: [],
       src: '',
-      // timestamp: null,
       errorMessage: '',
     };
   }

@@ -6,6 +6,7 @@ import Register from './register';
 import Profile from './profile';
 import Upload from './upload';
 import NavBar from './navbar';
+import Feed from './feed';
 import TokenManager from '../utils/token-manager';
 
 class App extends React.Component {
@@ -51,10 +52,9 @@ class App extends React.Component {
   };
 
   render() {
-    const { user } = this.state;
     return (
       <Fragment>
-        <NavBar isLoggedIn={this.isLoggedIn()} user={user} onLogout={this.handleLogout} />
+        <NavBar isLoggedIn={this.isLoggedIn()} onLogout={this.handleLogout} />
         <Switch>
           <Route
             exact
@@ -62,14 +62,9 @@ class App extends React.Component {
             render={routerProps => <LogIn {...routerProps} onLogin={this.handleLogin} />}
           />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/profile" component={Profile} />
-          <Route
-            exact
-            isLoggedIn={this.isLoggedIn()}
-            user={user}
-            path="/upload"
-            component={Upload}
-          />
+          <Route exact path="/profile/me" component={Profile} />
+          <Route exact path="/feed" component={Feed} />
+          <Route exact isLoggedIn={this.isLoggedIn()} path="/upload" component={Upload} />
         </Switch>
       </Fragment>
     );

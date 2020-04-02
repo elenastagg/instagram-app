@@ -1,12 +1,11 @@
 $orange: #d2691e;
 $yellow: #fcba03;
-$olive-green: #556b2f;
-$blue: #191970;
 
 .profile {
   border-style: solid;
   border-color: $orange;
   border-width: 3px;
+  font-family: liberation-sans, sans-serif;
 }
 
 .images-container {
@@ -15,25 +14,4 @@ $blue: #191970;
   border-width: 3px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-}
-
-.post-container {
-  border-color: $olive-green;
-  border-width: 3px;
-  border-style: solid;
-  padding: 8px;
-}
-
-.image-container {
-  border-color: $blue;
-  border-style: solid;
-}
-
-.image-caption {
-  border-color: black;
-  border-style: solid;
-}
-
-.image {
-  width: 100%;
 }

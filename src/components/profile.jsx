@@ -15,11 +15,14 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    const token = TokenManager.getToken();
     axios
-      .get('https://mcr-codes-image-sharing-api.herokuapp.com/images')
+      .get(`https://mcr-codes-image-sharing-api.herokuapp.com/me`, {
+        headers: { Authorization: token },
+      })
       .then(response => {
         this.setState({
-          images: response.data,
+          images: response.data.images,
         });
       })
       .catch(error => {
@@ -57,7 +60,7 @@ class Profile extends React.Component {
         <div className="images-container">
           {errorMessage && <div>{errorMessage}</div>}
           {images.map(image => (
-            <ImageCard key={image._id} {...image} handleDelete={this.handleDelete} />
+            <ImageCard key={image._id} image={image} handleDelete={this.handleDelete} />
           ))}
         </div>
         <div>
