@@ -27,58 +27,64 @@ npm start
 ### Visit `localhost:3000` in your browser.
 
 ### MVP
+
 # SIGN UP
+
 ```
 - Email
 - new password
-- handle
+- first & last names
 - add user to database
 ```
 
 # Feed
+
 ```
-- view photo
+- view all photos
+- view individual photo
 - like photo
 - comment on photo
 ```
 
 # PROFILE
+
 ```
-- handle - pulled in
-- profile picture
+- Avatar
 - Name
-- Save details
+- bio
 - Uploaded photos grid
 - Upload photo button
+- edit
+- delete images
 ```
 
 # UPLOAD PHOTO
+
 ```
 - Upload photo
 - write description
 - Publish photo
-- edit
-- delete images
 - Photo & description are added to profile
 ```
+
 ### NICE TO HAVE
-# SIGN UP
-```
-- confirm password
-```
+
 # Feed
+
 ```
 - Find user by handle
 - view profile
 ```
 
 # PROFILE
+
 ```
 - description
 - Save details
 ```
 
 # UPLOAD PHOTO
+
 ```
 - add tags to photos
 - search by tag

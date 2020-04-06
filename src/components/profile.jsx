@@ -10,6 +10,7 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       errorMessage: '',
+      user: null,
       images: [],
     };
   }
@@ -21,14 +22,39 @@ class Profile extends React.Component {
         headers: { Authorization: token },
       })
       .then(response => {
+        const { images, ...user } = response.data;
         this.setState({
-          images: response.data.images,
+          images,
+          user,
         });
+        console.log(this.state.images[0].comments);
       })
       .catch(error => {
         this.setState({ errorMessage: error.response.data.message });
       });
   }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  handleComment = (id, comment) => {
+    const { images } = this.state;
+    this.setState({
+      images: images.map(image => {
+        if (image._id === id) {
+          return {
+            ...image,
+            comments: image.comments.concat(comment),
+          };
+        }
+
+        return image;
+      }),
+    });
+  };
 
   handleDelete = id => {
     const token = TokenManager.getToken();
@@ -53,14 +79,20 @@ class Profile extends React.Component {
   };
 
   render() {
-    const { images, errorMessage } = this.state;
+    const { images, user, errorMessage } = this.state;
     return (
       <div className="profile">
         <h1>Images</h1>
         <div className="images-container">
           {errorMessage && <div>{errorMessage}</div>}
           {images.map(image => (
-            <ImageCard key={image._id} image={image} handleDelete={this.handleDelete} />
+            <ImageCard
+              key={image._id}
+              user={user}
+              image={image}
+              onDelete={this.handleDelete}
+              onComment={this.handleComment}
+            />
           ))}
         </div>
         <div>

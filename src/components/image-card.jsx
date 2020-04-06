@@ -1,35 +1,52 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import PropTypes from 'prop-types';
+import CommentBox from './comment-box';
 import '../styles/image-card.scss';
 
-const ImageCard = ({ handleDelete, image }) => (
+const ImageCard = ({ onDelete, user, image, onComment }) => (
   <div className="post-container">
     <div className="image-container">
+      <button type="button" onClick={() => onDelete(image._id)}>
+        Delete
+      </button>
       <img className="image" alt=" " id={image._id} src={image.src} />
     </div>
     <div className="image-caption">
       <span className="userName">
-        {image.user.firstName} {image.user.lastName}{' '}
+        {user.firstName} {user.lastName}{' '}
       </span>
       {image.caption}
+      <div>
+        <CommentBox id={image._id} onSubmit={onComment} />
+      </div>
+      {image.comments.map(comment => (
+        <div key={comment._id} user={user}>
+          {comment.author} {comment.content}
+        </div>
+      ))}
     </div>
-    <button type="button" onClick={() => handleDelete(image._id)}>
-      Delete
-    </button>
   </div>
 );
 
 ImageCard.propTypes = {
   image: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    caption: PropTypes.string.isRequired,
-    src: PropTypes.string.isRequired,
+    _id: PropTypes.string,
+    caption: PropTypes.string,
+    src: PropTypes.string,
+    comments: PropTypes.array,
   }).isRequired,
-  handleDelete: PropTypes.func,
+  user: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }).isRequired,
+  onDelete: PropTypes.func,
+  onComment: PropTypes.func,
 };
 
 ImageCard.defaultProps = {
-  handleDelete: () => {},
+  onDelete: () => {},
+  onComment: () => {},
 };
 
 export default ImageCard;

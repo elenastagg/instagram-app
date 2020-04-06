@@ -34,11 +34,6 @@ class LogIn extends React.Component {
         TokenManager.setToken(response.data.token);
         onLogin();
         history.push('/profile/me');
-        // const token = TokenManager.getToken();
-        // axios
-        //   .get(`https://mcr-codes-image-sharing-api.herokuapp.com/me`, {
-        //     headers: { Authorization: token },
-        //   })
       })
       .catch(error => {
         console.error(error.response);

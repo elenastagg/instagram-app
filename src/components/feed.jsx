@@ -33,8 +33,8 @@ class Feed extends React.Component {
         <h1>Images</h1>
         <div className="images-container">
           {errorMessage && <div>{errorMessage}</div>}
-          {images.map(image => (
-            <ImageCard key={image._id} image={image} />
+          {images.map(({ user, ...image }) => (
+            <ImageCard key={image._id} user={user} image={image} />
           ))}
         </div>
         <div>
