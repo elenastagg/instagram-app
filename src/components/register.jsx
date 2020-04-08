@@ -11,19 +11,10 @@ class Register extends React.Component {
       firstName: '',
       lastName: '',
       email: '',
-      bio: '',
-      avatar: '',
       password: '',
       confirmPassword: '',
     };
   }
-
-  handleSelectImage = event => {
-    event.preventDefault();
-    this.setState({
-      avatar: event.target.files[0],
-    });
-  };
 
   handleChange = event => {
     this.setState({
@@ -35,10 +26,10 @@ class Register extends React.Component {
     const { email, password, firstName, lastName, confirmPassword } = this.state;
     return (
       email === '' ||
-      password === '' ||
-      confirmPassword !== password ||
       firstName === '' ||
       lastName === '' ||
+      password === '' ||
+      confirmPassword !== password ||
       !validator.validate(email)
     );
   };
@@ -46,13 +37,11 @@ class Register extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     const { history } = this.props;
-    const { email, password, firstName, lastName, bio, avatar } = this.state;
+    const { email, password, firstName, lastName } = this.state;
     const formData = new FormData();
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
     formData.append('email', email);
-    formData.append('bio', bio);
-    formData.append('avatar', avatar);
     formData.append('password', password);
     axios
       .post('https://mcr-codes-image-sharing-api.herokuapp.com/users', formData)
@@ -66,7 +55,7 @@ class Register extends React.Component {
   };
 
   render() {
-    const { email, password, confirmPassword, firstName, lastName, bio, avatar } = this.state;
+    const { email, password, confirmPassword, firstName, lastName } = this.state;
 
     return (
       <form className="log-in-form" onSubmit={this.handleSubmit}>
@@ -111,26 +100,6 @@ class Register extends React.Component {
               onChange={this.handleChange}
               required
             />
-          </label>
-        </div>
-
-        <div>
-          <label htmlFor="email">
-            Bio
-            <textarea
-              maxLength="2200"
-              name="bio"
-              placeholder="Enter bio here..."
-              value={bio}
-              onChange={this.handleChange}
-            />
-          </label>
-        </div>
-
-        <div>
-          <label htmlFor='email'>
-            Upload your Avatar
-            <input type="file" name="avatar" onChange={this.handleSelectImage} file={avatar} />
           </label>
         </div>
 

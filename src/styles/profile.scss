@@ -1,17 +1,37 @@
-$orange: #d2691e;
-$yellow: #fcba03;
-
 .profile {
-  border-style: solid;
-  border-color: $orange;
-  border-width: 3px;
   font-family: liberation-sans, sans-serif;
 }
 
 .images-container {
-  border-color: $yellow;
-  border-style: solid;
-  border-width: 3px;
+  border-top: 0.5px solid rgb(194, 193, 193);
+  margin: auto;
+  width: 70%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+//media queries for screen width
+
+.profile-info-container {
+  padding: 10px 0 10px 0;
+  margin: auto;
+  width: 70%;
+  display: flex;
+  align-content: center;
+}
+
+.info-container {
+  margin: auto;
+}
+
+.profile-picture {
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.bio {
+  font-size: 12px;
 }

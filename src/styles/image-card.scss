@@ -2,24 +2,18 @@ $olive-green: #556b2f;
 $blue: #191970;
 
 .post-container {
-  border-color: $olive-green;
-  border-width: 3px;
-  border-style: solid;
   padding: 8px;
   font-weight: 300;
+  padding: 10px;
 }
 
 .image-container {
-  border-color: $blue;
-  border-style: solid;
 }
 .userName {
   font-weight: 600;
 }
 
 .image-caption {
-  border-color: black;
-  border-style: solid;
 }
 
 .image {

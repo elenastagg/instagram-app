@@ -22,7 +22,7 @@ const ImageCard = ({ onDelete, user, image, onComment }) => (
       </div>
       {image.comments.map(comment => (
         <div key={comment._id} user={user}>
-          {comment.author} {comment.content}
+          {comment.author.firstName} {comment.author.lastName} {comment.content}
         </div>
       ))}
     </div>

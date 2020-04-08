@@ -7,7 +7,7 @@ import Profile from './profile';
 import Upload from './upload';
 import NavBar from './navbar';
 import Feed from './feed';
-import CommentBox from './comment-box';
+import Bio from './bio';
 import TokenManager from '../utils/token-manager';
 
 class App extends React.Component {
@@ -65,7 +65,7 @@ class App extends React.Component {
           <Route exact path="/register" component={Register} />
           <Route exact path="/profile/me" component={Profile} />
           <Route exact path="/feed" component={Feed} />
-          <Route exact path="/comment" component={CommentBox} />
+          <Route exact path="/bio" component={Bio} />
           <Route exact isLoggedIn={this.isLoggedIn()} path="/upload" component={Upload} />
         </Switch>
       </Fragment>

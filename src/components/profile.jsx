@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import ImageCard from './image-card';
 import '../styles/profile.scss';
 import TokenManager from '../utils/token-manager';
@@ -10,8 +11,12 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       errorMessage: '',
+      bio: '',
+      avatar: '',
       user: null,
       images: [],
+      firstName: '',
+      lastName: '',
     };
   }
 
@@ -22,12 +27,15 @@ class Profile extends React.Component {
         headers: { Authorization: token },
       })
       .then(response => {
-        const { images, ...user } = response.data;
+        const { firstName, lastName, avatar, bio, images, ...user } = response.data;
         this.setState({
           images,
           user,
+          bio,
+          avatar,
+          firstName,
+          lastName,
         });
-        console.log(this.state.images[0].comments);
       })
       .catch(error => {
         this.setState({ errorMessage: error.response.data.message });
@@ -78,29 +86,55 @@ class Profile extends React.Component {
       });
   };
 
+  handleEdit = () => {
+    const { history } = this.props;
+    history.push('/bio');
+  };
+
   render() {
-    const { images, user, errorMessage } = this.state;
+    const { firstName, lastName, avatar, bio, images, errorMessage, user } = this.state;
     return (
-      <div className="profile">
-        <h1>Images</h1>
-        <div className="images-container">
-          {errorMessage && <div>{errorMessage}</div>}
-          {images.map(image => (
-            <ImageCard
-              key={image._id}
-              user={user}
-              image={image}
-              onDelete={this.handleDelete}
-              onComment={this.handleComment}
-            />
-          ))}
+      <Fragment>
+        <div className="profile">
+          <div className="profile-info-container">
+            <div>
+              <img className="profile-picture" alt="profile" src={avatar} />
+            </div>
+            <div className="info-container">
+              <div>{`${firstName} ${lastName} `}</div>
+              <div className="bio">{bio}</div>
+              <div>
+                <button type="button" onClick={this.handleEdit}>
+                  Edit profile
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="images-container">
+            {errorMessage && <div>{errorMessage}</div>}
+            {images.map(image => (
+              <ImageCard
+                key={image._id}
+                user={user}
+                image={image}
+                onDelete={this.handleDelete}
+                onComment={this.handleComment}
+              />
+            ))}
+          </div>
+          <div>
+            <Link to="/upload">Upload Photo</Link>
+          </div>
         </div>
-        <div>
-          <Link to="/upload">Upload Photo</Link>
-        </div>
-      </div>
+      </Fragment>
     );
   }
 }
+
+Profile.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Profile;

@@ -39,7 +39,6 @@ class CommentBox extends React.Component {
         onSubmit(id, response.data);
       })
       .catch(error => {
-        console.error(error);
         this.setState({ errorMessage: error.response.data.message });
       });
   };

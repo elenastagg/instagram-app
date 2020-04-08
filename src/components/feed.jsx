@@ -26,6 +26,22 @@ class Feed extends React.Component {
       });
   }
 
+  handleComment = (id, comment) => {
+    const { images } = this.state;
+    this.setState({
+      images: images.map(image => {
+        if (image._id === id) {
+          return {
+            ...image,
+            comments: image.comments.concat(comment),
+          };
+        }
+
+        return image;
+      }),
+    });
+  };
+
   render() {
     const { images, errorMessage } = this.state;
     return (
@@ -34,7 +50,7 @@ class Feed extends React.Component {
         <div className="images-container">
           {errorMessage && <div>{errorMessage}</div>}
           {images.map(({ user, ...image }) => (
-            <ImageCard key={image._id} user={user} image={image} />
+            <ImageCard key={image._id} user={user} image={image} onComment={this.handleComment} />
           ))}
         </div>
         <div>
