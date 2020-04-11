@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import TokenManager from '../utils/token-manager';
+import '../styles/upload.scss';
 
 class Upload extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class Upload extends React.Component {
       caption: '',
       src: '',
       errorMessage: '',
+      imageUrl: '',
     };
   }
 
@@ -17,6 +19,7 @@ class Upload extends React.Component {
     event.preventDefault();
     this.setState({
       src: event.target.files[0],
+      imageUrl: URL.createObjectURL(event.target.files[0]),
     });
   };
 
@@ -45,17 +48,16 @@ class Upload extends React.Component {
           headers: { Authorization: token },
         })
         .then(() => {
-          history.push('/profile');
+          history.push(`/profile/${TokenManager.getTokenPayLoad()._id}`);
         })
         .catch(error => {
-          console.log('upload error:', error);
           this.setState({ errorMessage: error.response.data.message });
         });
     }
   };
 
   render() {
-    const { caption, src, errorMessage } = this.state;
+    const { caption, src, errorMessage, imageUrl } = this.state;
     return (
       <form id="uploadPhoto" onSubmit={this.handleSubmit}>
         <h1>Upload Photo</h1>
@@ -67,6 +69,9 @@ class Upload extends React.Component {
           value={caption}
           onChange={this.handleChange}
         />
+        <div>
+          {imageUrl ? <img alt="preview" className="preview-image" src={imageUrl} /> : null}
+        </div>
         <div>
           <input type="file" name="upload" onChange={this.handleSelectImage} file={src} />
         </div>

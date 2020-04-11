@@ -63,7 +63,7 @@ class App extends React.Component {
             render={routerProps => <LogIn {...routerProps} onLogin={this.handleLogin} />}
           />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/profile/me" component={Profile} />
+          <Route exact path="/profile/:id" component={Profile} />
           <Route exact path="/feed" component={Feed} />
           <Route exact path="/bio" component={Bio} />
           <Route exact isLoggedIn={this.isLoggedIn()} path="/upload" component={Upload} />

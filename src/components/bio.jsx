@@ -65,7 +65,7 @@ class Bio extends React.Component {
         headers: { Authorization: token },
       })
       .then(() => {
-        history.push('/profile/me');
+        history.push(`/profile/${TokenManager.getTokenPayLoad()._id}`);
       })
       .catch(error => {
         this.setState({ errorMessage: error.response.data.message });

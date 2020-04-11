@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ImageCard from './image-card';
+import TokenManager from '../utils/token-manager';
 import '../styles/profile.scss';
 
 class Feed extends React.Component {
@@ -42,6 +43,33 @@ class Feed extends React.Component {
     });
   };
 
+  handleLike = id => {
+    const { images } = this.state;
+    const token = TokenManager.getToken();
+    axios
+      .patch(`https://mcr-codes-image-sharing-api.herokuapp.com/images/${id}/likes`, null, {
+        headers: { Authorization: token },
+      })
+      .then(response => {
+        this.setState({
+          images: images.map(image => {
+            if (image._id === id) {
+              return {
+                ...image,
+                likes: response.data.likes,
+                isLiked: response.data.isLiked,
+              };
+            }
+
+            return image;
+          }),
+        });
+      })
+      .catch(error => {
+        this.setState({ errorMessage: error.response.data.message });
+      });
+  };
+
   render() {
     const { images, errorMessage } = this.state;
     return (
@@ -50,7 +78,13 @@ class Feed extends React.Component {
         <div className="images-container">
           {errorMessage && <div>{errorMessage}</div>}
           {images.map(({ user, ...image }) => (
-            <ImageCard key={image._id} user={user} image={image} onComment={this.handleComment} />
+            <ImageCard
+              key={image._id}
+              user={user}
+              image={image}
+              onLike={this.handleLike}
+              onComment={this.handleComment}
+            />
           ))}
         </div>
         <div>

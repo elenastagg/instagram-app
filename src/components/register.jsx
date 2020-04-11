@@ -13,6 +13,7 @@ class Register extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
+      errorMessage: '',
     };
   }
 
@@ -45,17 +46,16 @@ class Register extends React.Component {
     formData.append('password', password);
     axios
       .post('https://mcr-codes-image-sharing-api.herokuapp.com/users', formData)
-      .then(response => {
-        console.log('registration res', response);
+      .then(() => {
         history.push('/');
       })
       .catch(error => {
-        console.log('registration error', error);
+        this.setState({ errorMessage: error.response.data.message });
       });
   };
 
   render() {
-    const { email, password, confirmPassword, firstName, lastName } = this.state;
+    const { errorMessage, email, password, confirmPassword, firstName, lastName } = this.state;
 
     return (
       <form className="log-in-form" onSubmit={this.handleSubmit}>
@@ -131,8 +131,8 @@ class Register extends React.Component {
               required
             />
           </label>
+          {errorMessage && <div>{errorMessage}</div>}
         </div>
-
         <button disabled={this.isSubmitDisabled()} type="submit">
           Register
         </button>

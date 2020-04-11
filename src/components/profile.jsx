@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import ImageCard from './image-card';
+
 import '../styles/profile.scss';
 import TokenManager from '../utils/token-manager';
 
@@ -21,9 +22,10 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    const { id } = this.props.match.params;
     const token = TokenManager.getToken();
     axios
-      .get(`https://mcr-codes-image-sharing-api.herokuapp.com/me`, {
+      .get(`https://mcr-codes-image-sharing-api.herokuapp.com/users/${id}`, {
         headers: { Authorization: token },
       })
       .then(response => {
@@ -58,7 +60,6 @@ class Profile extends React.Component {
             comments: image.comments.concat(comment),
           };
         }
-
         return image;
       }),
     });
@@ -91,6 +92,32 @@ class Profile extends React.Component {
     history.push('/bio');
   };
 
+  handleLike = id => {
+    const token = TokenManager.getToken();
+    const { images } = this.state;
+    axios
+      .patch(`https://mcr-codes-image-sharing-api.herokuapp.com/images/${id}/likes`, null, {
+        headers: { Authorization: token },
+      })
+      .then(response => {
+        this.setState({
+          images: images.map(image => {
+            if (image._id === id) {
+              return {
+                ...image,
+                likes: response.data.likes,
+                isLiked: response.data.isLiked,
+              };
+            }
+            return image;
+          }),
+        });
+      })
+      .catch(error => {
+        this.setState({ errorMessage: error.response.data.message });
+      });
+  };
+
   render() {
     const { firstName, lastName, avatar, bio, images, errorMessage, user } = this.state;
     return (
@@ -119,6 +146,7 @@ class Profile extends React.Component {
                 image={image}
                 onDelete={this.handleDelete}
                 onComment={this.handleComment}
+                onLike={this.handleLike}
               />
             ))}
           </div>

@@ -33,10 +33,9 @@ class LogIn extends React.Component {
       .then(response => {
         TokenManager.setToken(response.data.token);
         onLogin();
-        history.push('/profile/me');
+        history.push(`/profile/${TokenManager.getTokenPayLoad()._id}`);
       })
       .catch(error => {
-        console.error(error.response);
         this.setState({ errorMessage: error.response.data.message });
       });
   };

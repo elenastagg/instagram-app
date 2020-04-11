@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import TokenManager from '../utils/token-manager';
 
 const NavBar = ({ isLoggedIn, onLogout }) => (
   <nav style={{ backgroundColor: 'lightgrey', padding: 10 }}>
@@ -18,7 +19,7 @@ const NavBar = ({ isLoggedIn, onLogout }) => (
     </div>
     <div>
       <button type="button">
-        <Link to="/profile/me">My Profile</Link>
+        <Link to={`/profile/${TokenManager.getTokenPayLoad()._id}`}>My Profile</Link>
       </button>
     </div>
   </nav>

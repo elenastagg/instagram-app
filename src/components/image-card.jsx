@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import CommentBox from './comment-box';
 import '../styles/image-card.scss';
 
-const ImageCard = ({ onDelete, user, image, onComment }) => (
+const ImageCard = ({ onDelete, user, image, onComment, onLike }) => (
   <div className="post-container">
     <div className="image-container">
       <button type="button" onClick={() => onDelete(image._id)}>
@@ -17,6 +18,10 @@ const ImageCard = ({ onDelete, user, image, onComment }) => (
         {user.firstName} {user.lastName}{' '}
       </span>
       {image.caption}
+      <button type="button" onClick={() => onLike(image._id)}>
+        {image.isLiked ? <IoIosHeart /> : <IoIosHeartEmpty />}
+      </button>
+      {image.likes}
       <div>
         <CommentBox id={image._id} onSubmit={onComment} />
       </div>
@@ -35,6 +40,8 @@ ImageCard.propTypes = {
     caption: PropTypes.string,
     src: PropTypes.string,
     comments: PropTypes.array,
+    likes: PropTypes.number,
+    isLiked: PropTypes.bool,
   }).isRequired,
   user: PropTypes.shape({
     firstName: PropTypes.string,
@@ -42,11 +49,13 @@ ImageCard.propTypes = {
   }).isRequired,
   onDelete: PropTypes.func,
   onComment: PropTypes.func,
+  onLike: PropTypes.func,
 };
 
 ImageCard.defaultProps = {
   onDelete: () => {},
   onComment: () => {},
+  onLike: () => {},
 };
 
 export default ImageCard;
